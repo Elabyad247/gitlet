@@ -1,7 +1,5 @@
 package gitlet;
 
-// TODO: any imports you need here
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,7 +16,6 @@ import static gitlet.Utils.*;
  */
 public class Commit implements Serializable {
     /**
-     * TODO: add instance variables here.
      *
      * List all instance variables of the Commit class here with a useful
      * comment above them describing what that variable represents and how that
@@ -36,11 +33,15 @@ public class Commit implements Serializable {
         date = new Date(0);
     }
 
-    public void save_commit() throws IOException {
+    public String getUID() {
         String objContent = this.toString();
-        File tempfile = join(Repository.COMMITS_DIR, sha1(objContent));
-        tempfile.createNewFile();
-        writeObject(tempfile, this);
+        return sha1(objContent);
     }
-    /* TODO: fill in the rest of this class. */
+
+    public void saveCommit() throws IOException {
+        File commitFile = join(Repository.COMMITS_DIR, getUID());
+        commitFile.createNewFile();
+        writeObject(commitFile, this);
+    }
+
 }

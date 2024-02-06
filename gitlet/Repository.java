@@ -12,7 +12,7 @@ import static gitlet.Utils.*;
  *  TODO: It's a good idea to give a description here of what else this Class
  *  does at a high level.
  *
- * @author TODO
+ * @author Elabyad & Znno
  */
 public class Repository {
     /**
@@ -40,7 +40,7 @@ public class Repository {
         }
         GITLET_DIR.mkdir();
         COMMITS_DIR.mkdir();
-        Commit newcommit = new Commit();
-        newcommit.save_commit();
+        Commit intialCommit = new Commit();
+        intialCommit.saveCommit();
     }
 }

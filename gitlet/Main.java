@@ -20,7 +20,6 @@ public class Main {
         String firstArg = args[0];
         switch (firstArg) {
             case "init":
-                // TODO: handle the `init` command
                 if (args.length > 1) {
                     System.out.println("Incorrect operands.");
                     System.exit(0);
@@ -28,9 +27,9 @@ public class Main {
                 Repository.init();
                 break;
             case "add":
-                // TODO: handle the `add [filename]` command
+
                 break;
-            // TODO: FILL THE REST IN
+
             default:
                 System.out.println("No command with that name exists.");
                 System.exit(0);
