@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static gitlet.Utils.*;
 
@@ -27,10 +29,13 @@ public class Commit implements Serializable {
      */
     private String message;
     private Date date;
+    private String branch;
+    private HashMap<String, String> values = new HashMap<>();
 
     public Commit() {
         message = "Initial Commit";
         date = new Date(0);
+        branch = Repository.CURRENT_BRANCH;
     }
 
     public String getUID() {
@@ -42,6 +47,10 @@ public class Commit implements Serializable {
         File commitFile = join(Repository.COMMITS_DIR, getUID());
         commitFile.createNewFile();
         writeObject(commitFile, this);
+    }
+
+    public String getBlob(String fileName) {
+        return values.get(fileName);
     }
 
 }

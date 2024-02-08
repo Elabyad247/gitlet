@@ -1,6 +1,9 @@
 package gitlet;
 
 import java.io.IOException;
+import java.io.File;
+
+import static gitlet.Utils.*;
 
 /**
  * Driver class for Gitlet, a subset of the Git version-control system.
@@ -27,7 +30,20 @@ public class Main {
                 Repository.init();
                 break;
             case "add":
-
+                if (args.length != 2) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                if (!Repository.GITLET_DIR.exists()) {
+                    System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                File testfile = join(Repository.CWD, args[1]);
+                if (!testfile.exists()) {
+                    System.out.println("File does not exist.");
+                    System.exit(0);
+                }
+                Repository.add(args[1]);
                 break;
 
             default:
