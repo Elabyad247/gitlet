@@ -82,6 +82,10 @@ public class Repository {
             newBlob.saveBlob();
         } else {
             if (currentCommit.getBlob(name).equals(newBlob.getUID())) {
+                if (addMap.get(name) != null) {
+                    File temp = join(BLOBS_DIR, addMap.get(name));
+                    temp.delete();
+                }
                 addMap.remove(name);
             } else {
                 if (addMap.get(name) != null) {
@@ -93,5 +97,54 @@ public class Repository {
             }
         }
         writeObject(ADD_STAGE_FILE, addMap);
+        HashMap<String, String> removeMap = readObject(REMOVE_STAGE_FILE, HashMap.class);
+        if (removeMap.get(name) != null) {
+            removeMap.remove(name);
+        }
+        writeObject(REMOVE_STAGE_FILE, removeMap);
+    }
+    public static void rm(String name) {
+        HashMap<String, String> addMap = readObject(ADD_STAGE_FILE, HashMap.class);
+        String sha = readContentsAsString(HEAD);
+        File file = join(COMMITS_DIR, sha);
+        Commit currentCommit = readObject(file, Commit.class);
+        if(addMap.get(name)==null&&currentCommit.getBlob(name)==null){
+            System.out.println("No reason to remove the file.");
+            System.exit(0);
+        }
+        if(addMap.get(name)!=null){
+            File temp = join(BLOBS_DIR, addMap.get(name));
+            temp.delete();
+            addMap.remove(name);
+        }
+        if(currentCommit.getBlob(name)!=null){
+            HashMap<String, String> removeMap = readObject(REMOVE_STAGE_FILE, HashMap.class);
+            removeMap.put(name,currentCommit.getBlob(name));
+            File temp = join(CWD, name);
+            temp.delete();
+            writeObject(REMOVE_STAGE_FILE, removeMap);
+        }
+        writeObject(ADD_STAGE_FILE, addMap);
+    }
+    public  static void commit(String message) throws IOException {
+        HashMap<String, String> addMap = readObject(ADD_STAGE_FILE, HashMap.class);
+        HashMap<String, String> removemap = readObject(REMOVE_STAGE_FILE, HashMap.class);
+        if (addMap.isEmpty()&&removemap.isEmpty()){
+            System.out.println("No changes added to the commit.");
+            System.exit(0);
+        }
+        String sha = readContentsAsString(HEAD);
+        File file = join(COMMITS_DIR, sha);
+        Commit currentCommit = readObject(file, Commit.class);
+        Commit newCommit = new Commit(message, currentCommit.getUID());
+        newCommit.addBlobs(currentCommit.getBlobs());
+        newCommit.addBlobs(addMap);
+        newCommit.removeBlobs(removemap);
+        addMap.clear();
+        removemap.clear();
+        writeObject(ADD_STAGE_FILE, addMap);
+        writeObject(REMOVE_STAGE_FILE, removemap);
+        newCommit.saveCommit();
+        writeContents(HEAD, newCommit.getUID());
     }
 }

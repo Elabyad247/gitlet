@@ -30,17 +30,29 @@ public class Commit implements Serializable {
     private String message;
     private Date date;
     private String branch;
-    private HashMap<String, String> values = new HashMap<>();
+    private String parent;
+    private HashMap<String, String> blobs = new HashMap<>();
 
     public Commit() {
         message = "Initial Commit";
         date = new Date(0);
         branch = Repository.CURRENT_BRANCH;
+        parent = null;
+    }
+    public Commit(String _message,String _parent) {
+        message=_message;
+        parent=_parent;
+        date=new Date();
+    }
+
+    @Override
+    public String toString() {
+        System.out.println(blobs.toString());
+        return message + date + branch + parent + blobs.toString();
     }
 
     public String getUID() {
-        String objContent = this.toString();
-        return sha1(objContent);
+        return sha1(toString());
     }
 
     public void saveCommit() throws IOException {
@@ -49,8 +61,21 @@ public class Commit implements Serializable {
         writeObject(commitFile, this);
     }
 
+    public void addBlobs(HashMap<String, String> oldAddMap) {
+        blobs.putAll(oldAddMap);
+    }
+
+    public void removeBlobs(HashMap<String, String> oldRemoveMap) {
+        for (Map.Entry<String, String> set : oldRemoveMap.entrySet()) {
+            blobs.remove(set.getKey());
+        }
+    }
+
+    public HashMap<String, String> getBlobs() {
+        return blobs;
+    }
     public String getBlob(String fileName) {
-        return values.get(fileName);
+        return blobs.get(fileName);
     }
 
 }

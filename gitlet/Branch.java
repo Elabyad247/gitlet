@@ -19,9 +19,14 @@ public class Branch implements Serializable {
         lastCommit = newCommit;
     }
 
+    @Override
+    public String toString() {
+        String objContent = name + lastCommit;
+        return objContent;
+    }
+
     public String getUID() {
-        String objContent = this.toString();
-        return sha1(objContent);
+        return sha1(toString());
     }
 
     public void saveBranch() throws IOException {
