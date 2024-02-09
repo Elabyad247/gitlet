@@ -1,7 +1,6 @@
 package gitlet;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 
 import static gitlet.Utils.*;
@@ -29,9 +28,8 @@ public class Branch implements Serializable {
         return sha1(toString());
     }
 
-    public void saveBranch() throws IOException {
+    public void saveBranch() {
         File bracnhFile = join(Repository.BRANCH_DIR, getUID());
-        bracnhFile.createNewFile();
         writeObject(bracnhFile, this);
     }
 

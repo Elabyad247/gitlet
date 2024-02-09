@@ -1,6 +1,5 @@
 package gitlet;
 
-import java.io.IOException;
 import java.io.File;
 
 import static gitlet.Utils.*;
@@ -15,7 +14,7 @@ public class Main {
      * Usage: java gitlet.Main ARGS, where ARGS contains
      * <COMMAND> <OPERAND1> <OPERAND2> ...
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length == 0) {
             System.out.println("Please enter a command.");
             System.exit(0);
@@ -30,12 +29,12 @@ public class Main {
                 Repository.init();
                 break;
             case "add":
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
                 if (!Repository.GITLET_DIR.exists()) {
                     System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                if (args.length != 2) {
+                    System.out.println("Incorrect operands.");
                     System.exit(0);
                 }
                 File testfile = join(Repository.CWD, args[1]);
@@ -46,30 +45,86 @@ public class Main {
                 Repository.add(args[1]);
                 break;
             case "rm":
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
                 if (!Repository.GITLET_DIR.exists()) {
                     System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                if (args.length != 2) {
+                    System.out.println("Incorrect operands.");
                     System.exit(0);
                 }
                 Repository.rm(args[1]);
                 break;
             case "commit":
-                if(args.length!=2){
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
-                if(args[1].isEmpty()){
-                    System.out.println("Please enter a commit message.");
-                    System.exit(0);
-                }
                 if (!Repository.GITLET_DIR.exists()) {
                     System.out.println("Not in an initialized Gitlet directory.");
                     System.exit(0);
                 }
+                if (args.length != 2) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                if (args[1].isEmpty()) {
+                    System.out.println("Please enter a commit message.");
+                    System.exit(0);
+                }
                 Repository.commit(args[1]);
+                break;
+            case "log":
+                if (!Repository.GITLET_DIR.exists()) {
+                    System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                if (args.length != 1) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                Repository.log();
+                break;
+            case "global-log":
+                if (!Repository.GITLET_DIR.exists()) {
+                    System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                if (args.length != 1) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                Repository.globalLog();
+                break;
+            case "find":
+                if (!Repository.GITLET_DIR.exists()) {
+                    System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                if (args.length != 2) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                Repository.find(args[1]);
+                break;
+            case "checkout":
+                if (!Repository.GITLET_DIR.exists()) {
+                    System.out.println("Not in an initialized Gitlet directory.");
+                    System.exit(0);
+                }
+                if (args.length != 2 && args.length != 4 && args.length != 3) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                if (args.length == 3 && !args[1].equals("--")) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                if (args.length == 4 && !args[2].equals("--")) {
+                    System.out.println("Incorrect operands.");
+                    System.exit(0);
+                }
+                if (args.length == 3) {
+                    Repository.checkoutFile(args[2]);
+                } else if (args.length == 4) {
+                    Repository.checkoutCommit(args[1], args[3]);
+                }
                 break;
             default:
                 System.out.println("No command with that name exists.");

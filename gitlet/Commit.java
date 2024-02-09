@@ -1,7 +1,6 @@
 package gitlet;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,8 +10,7 @@ import static gitlet.Utils.*;
 
 /**
  * Represents a gitlet commit object.
- *  TODO: It's a good idea to give a description here of what else this Class
- *  does at a high level.
+ * does at a high level.
  *
  * @author Elabyad & Znno
  */
@@ -29,35 +27,36 @@ public class Commit implements Serializable {
      */
     private String message;
     private Date date;
-    private String branch;
     private String parent;
     private HashMap<String, String> blobs = new HashMap<>();
 
     public Commit() {
-        message = "Initial Commit";
+        message = "initial commit";
         date = new Date(0);
-        branch = Repository.CURRENT_BRANCH;
         parent = null;
     }
-    public Commit(String _message,String _parent) {
-        message=_message;
-        parent=_parent;
-        date=new Date();
+
+    public Commit(String _message, String _parent) {
+        message = _message;
+        parent = _parent;
+        date = new Date();
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     @Override
     public String toString() {
-        System.out.println(blobs.toString());
-        return message + date + branch + parent + blobs.toString();
+        return message + date.toString() + parent + blobs.toString();
     }
 
     public String getUID() {
-        return sha1(toString());
+        return sha1(this.toString());
     }
 
-    public void saveCommit() throws IOException {
+    public void saveCommit() {
         File commitFile = join(Repository.COMMITS_DIR, getUID());
-        commitFile.createNewFile();
         writeObject(commitFile, this);
     }
 
@@ -74,8 +73,17 @@ public class Commit implements Serializable {
     public HashMap<String, String> getBlobs() {
         return blobs;
     }
+
     public String getBlob(String fileName) {
         return blobs.get(fileName);
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
 }
