@@ -28,19 +28,29 @@ public class Commit implements Serializable {
     private String message;
     private Date date;
     private String parent;
+    private String secParent;
     private TreeMap<String, String> blobs = new TreeMap<>();
-    
+
 
     public Commit() {
         message = "initial commit";
         date = new Date(0);
         parent = null;
+        secParent = null;
     }
 
     public Commit(String message, String parent) {
         this.message = message;
         this.parent = parent;
+        this.secParent = null;
         date = new Date();
+    }
+
+    public Commit(String message, String firstParent, String secondParent) {
+        this.message = message;
+        this.parent = firstParent;
+        this.secParent = secondParent;
+        this.date = new Date();
     }
 
     public Date getDate() {
@@ -49,7 +59,7 @@ public class Commit implements Serializable {
 
     @Override
     public String toString() {
-        return message + date.toString() + parent + blobs.toString();
+        return message + date.toString() + parent + secParent + blobs.toString();
     }
 
     public String getUID() {
@@ -85,6 +95,22 @@ public class Commit implements Serializable {
 
     public String getMessage() {
         return message;
+    }
+
+    public void setSecParent(String sec) {
+        secParent = sec;
+    }
+
+    public String getSecParent() {
+        return secParent;
+    }
+
+    public void setParent(String s) {
+        parent = s;
+    }
+
+    public void setMessage(String s) {
+        message = s;
     }
 
 }
