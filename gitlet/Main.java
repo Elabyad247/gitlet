@@ -1,13 +1,7 @@
 package gitlet;
 
-import java.io.File;
-
-import static gitlet.Utils.*;
-
 /**
- * Driver class for Gitlet, a subset of the Git version-control system.
- *
- * @author Elabyad & Znno
+ * @author Saifaldin Elabyad & Zeyad Tabour
  */
 public class Main {
     /**
@@ -22,48 +16,22 @@ public class Main {
         String firstArg = args[0];
         switch (firstArg) {
             case "init":
-                if (args.length > 1) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkNumberOfArgs(1, args.length);
                 Repository.init();
                 break;
             case "add":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
-                File testfile = join(Repository.CWD, args[1]);
-                if (!testfile.exists()) {
-                    System.out.println("File does not exist.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.add(args[1]);
                 break;
             case "rm":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.rm(args[1]);
                 break;
             case "commit":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 if (args[1].isEmpty()) {
                     System.out.println("Please enter a commit message.");
                     System.exit(0);
@@ -71,43 +39,22 @@ public class Main {
                 Repository.commit(args[1],null);
                 break;
             case "log":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 1) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(1, args.length);
                 Repository.log();
                 break;
             case "global-log":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 1) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(1, args.length);
                 Repository.globalLog();
                 break;
             case "find":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.find(args[1]);
                 break;
             case "checkout":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
                 if (args.length != 2 && args.length != 4 && args.length != 3) {
                     System.out.println("Incorrect operands.");
                     System.exit(0);
@@ -129,64 +76,46 @@ public class Main {
                 }
                 break;
             case "status":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 1) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(1, args.length);
                 Repository.status();
                 break;
             case "branch":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.branch(args[1]);
                 break;
             case "rm-branch":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.rmbranch(args[1]);
                 break;
             case "reset":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.reset(args[1]);
                 break;
             case "merge":
-                if (!Repository.GITLET_DIR.exists()) {
-                    System.out.println("Not in an initialized Gitlet directory.");
-                    System.exit(0);
-                }
-                if (args.length != 2) {
-                    System.out.println("Incorrect operands.");
-                    System.exit(0);
-                }
+                checkInitializedGitlet();
+                checkNumberOfArgs(2, args.length);
                 Repository.merge(args[1]);
                 break;
             default:
                 System.out.println("No command with that name exists.");
                 System.exit(0);
                 break;
+        }
+    }
+    private static void checkNumberOfArgs(int correct, int provided) {
+        if (correct != provided) {
+            System.out.println("Incorrect operands.");
+            System.exit(0);
+        }
+    }
+    private static void checkInitializedGitlet() {
+        if (!Repository.GITLET_DIR.exists()) {
+            System.out.println("Not in an initialized Gitlet directory.");
+            System.exit(0);
         }
     }
 }

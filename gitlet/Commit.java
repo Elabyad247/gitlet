@@ -3,34 +3,17 @@ package gitlet;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.Map;
 import java.util.TreeMap;
-
 import static gitlet.Utils.*;
 
-/**
- * Represents a gitlet commit object.
- * does at a high level.
- *
- * @author Elabyad & Znno
- */
 public class Commit implements Serializable {
-    /**
-     *
-     * List all instance variables of the Commit class here with a useful
-     * comment above them describing what that variable represents and how that
-     * variable is used. We've provided one example for `message`.
-     */
-
-    /**
-     * The message of this Commit.
-     */
     private String message;
     private Date date;
     private String parent;
     private String secParent;
     private TreeMap<String, String> blobs = new TreeMap<>();
-
 
     public Commit() {
         message = "initial commit";
@@ -85,7 +68,7 @@ public class Commit implements Serializable {
         return blobs;
     }
 
-    public String getBlob(String fileName) {
+    public String getBlobID(String fileName) {
         return blobs.get(fileName);
     }
 
@@ -97,20 +80,18 @@ public class Commit implements Serializable {
         return message;
     }
 
-    public void setSecParent(String sec) {
-        secParent = sec;
-    }
-
     public String getSecParent() {
         return secParent;
     }
 
-    public void setParent(String s) {
-        parent = s;
+    public void displayLog() {
+        System.out.println("===");
+        System.out.println("commit " + getUID());
+        Date time = getDate();
+        Formatter f = new Formatter().format("%1$ta %1$tb %1$td %1$tT %1$tY %1$tz", time);
+        String fDate = f.toString();
+        System.out.println("Date: " + fDate);
+        System.out.println(getMessage());
+        System.out.println();
     }
-
-    public void setMessage(String s) {
-        message = s;
-    }
-
 }

@@ -2,7 +2,6 @@ package gitlet;
 
 import java.io.File;
 import java.io.Serializable;
-
 import static gitlet.Utils.*;
 
 public class Branch implements Serializable {
@@ -20,8 +19,7 @@ public class Branch implements Serializable {
 
     @Override
     public String toString() {
-        String objContent = name + branchHead;
-        return objContent;
+        return name + branchHead;
     }
 
     public String getUID() {
@@ -33,7 +31,7 @@ public class Branch implements Serializable {
     }
 
     public void saveBranch() {
-        File bracnhFile = join(Repository.BRANCH_DIR, getUID());
+        File bracnhFile = join(Repository.BRANCH_DIR, name);
         writeObject(bracnhFile, this);
     }
 
