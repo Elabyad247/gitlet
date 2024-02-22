@@ -1,7 +1,13 @@
 package gitlet;
 
+import java.io.File;
+
+import static gitlet.Utils.*;
+
 /**
- * @author Saifaldin Elabyad & Zeyad Tabour
+ * Driver class for Gitlet, a subset of the Git version-control system.
+ *
+ * @author Elabyad & Znno
  */
 public class Main {
     /**

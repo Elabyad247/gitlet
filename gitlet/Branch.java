@@ -2,6 +2,7 @@ package gitlet;
 
 import java.io.File;
 import java.io.Serializable;
+
 import static gitlet.Utils.*;
 
 public class Branch implements Serializable {
@@ -19,7 +20,8 @@ public class Branch implements Serializable {
 
     @Override
     public String toString() {
-        return name + branchHead;
+        String objContent = name + branchHead;
+        return objContent;
     }
 
     public String getUID() {

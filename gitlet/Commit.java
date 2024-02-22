@@ -6,14 +6,32 @@ import java.util.Date;
 import java.util.Formatter;
 import java.util.Map;
 import java.util.TreeMap;
+
 import static gitlet.Utils.*;
 
+/**
+ * Represents a gitlet commit object.
+ * does at a high level.
+ *
+ * @author Elabyad & Znno
+ */
 public class Commit implements Serializable {
+    /**
+     *
+     * List all instance variables of the Commit class here with a useful
+     * comment above them describing what that variable represents and how that
+     * variable is used. We've provided one example for `message`.
+     */
+
+    /**
+     * The message of this Commit.
+     */
     private String message;
     private Date date;
     private String parent;
     private String secParent;
     private TreeMap<String, String> blobs = new TreeMap<>();
+
 
     public Commit() {
         message = "initial commit";
